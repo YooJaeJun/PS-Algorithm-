@@ -7,20 +7,12 @@ const int limit = 123456 * 2;
 vector<bool> isPrime(limit + 1, true);
 
 void checkPrime() {
-	isPrime[2] = true;
-	int sq = sqrt(limit);
-	for (int i = 2; i <= sq; i++) {
-		for (int j = 2; j < i; j++) {
-			if (i % j == 0) {
-				isPrime[i] = false;
-				break;
-			}
-		}
-
-		if (isPrime[i]) {
-			for (int j = i + i; j <= limit; j += i) {
-				isPrime[j] = false;
-			}
+	isPrime[0] = false;
+	isPrime[1] = false;
+	for (int i = 2; i < limit; i++) {
+		if (isPrime[i] == false) { continue; }
+		for (int j = 2; j * i <= limit; j++) {
+			isPrime[j * i] = false;
 		}
 	}
 }
