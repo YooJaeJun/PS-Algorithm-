@@ -6,7 +6,7 @@ using namespace std;
 bool compare(int n1, int n2) {
     string s1 = to_string(n1);
     string s2 = to_string(n2);
-    return stoi(s1 + s2) > stoi(s2 + s1);
+    return s1 + s2 > s2 + s1;
 }
 
 string solution(vector<int> numbers) {
