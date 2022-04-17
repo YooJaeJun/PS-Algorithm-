@@ -1,26 +1,15 @@
 #include <iostream>
 #include <vector>
-#include <cmath>
 using namespace std;
 
 vector<bool> isPrime(1000001, true);
 
 void checkPrime(int n) {
 	isPrime[0] = isPrime[1] = false;
-	int sq = sqrt(n);
-	for (int i = 3; i <= sq; i++) {
+	for (int i = 3; i < n; i++) {
 		if (isPrime[i] == false) continue;
-
-		for (int j = 2; j < i; j++) {
-			if (i % j == 0) {
-				isPrime[i] = false;
-				break;
-			}
-		}
-		if (isPrime[i]) {
-			for (int j = i + i; j <= n; j += i) {
-				isPrime[j] = false;
-			}
+		for (int j = 2; i * j <= n; j++) {
+			isPrime[i * j] = false;
 		}
 	}
 }
