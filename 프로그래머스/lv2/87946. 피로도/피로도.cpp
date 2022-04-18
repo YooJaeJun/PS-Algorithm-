@@ -15,29 +15,15 @@ void dfs(int k, int depth) {
         visited[i] = true;
         dfs(k - d[i][1], depth + 1);
         visited[i] = false;
+        cnt = max(cnt, depth);
     }
-    cnt = max(cnt, depth);
 }
 
 int solution(int k, vector<vector<int>> dungeons) {
     d = dungeons;
     visited.resize(d.size());
-    int answer = 0;
-    int kOrigin = k;
-
-    for (int i = 0; i != d.size(); i++) {
-        fill(visited.begin(), visited.end(), false);
-        cnt = 0;
-        k = kOrigin;
-
-        if (k < d[i][0]) continue;
-        k -= d[i][1];
-        visited[i] = true;
-
-        dfs(k, 1);
-        answer = max(answer, cnt);
-    }
-    return answer;
+    dfs(k, 1);
+    return cnt;
 }
 
 int main() {
