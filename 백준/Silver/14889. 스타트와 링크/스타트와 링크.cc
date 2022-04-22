@@ -9,17 +9,15 @@ vector<vector<int>> nodes;
 vector<int> visited;
 int ans = 1e9;
 
-void bt(int depth, vector<int>& team1, int idx) {
+void bt(int depth, vector<bool>& team1, int idx) {
 	if (depth == n / 2) {
 		int sum1 = 0, sum2 = 0;
 		for (int i = 0; i != n; i++) {
 			for (int j = i + 1; j != n; j++) {
-				auto itI = find(team1.begin(), team1.end(), i);
-				auto itJ = find(team1.begin(), team1.end(), j);
-				if (itI != team1.end() && itJ != team1.end()) {
+				if (team1[i] && team1[j]) {
 					sum1 += nodes[i][j] + nodes[j][i];
 				}
-				else if (itI == team1.end() && itJ == team1.end()) {
+				else if (team1[i] == false && team1[j] == false) {
 					sum2 += nodes[i][j] + nodes[j][i];
 				}
 			}
@@ -33,9 +31,9 @@ void bt(int depth, vector<int>& team1, int idx) {
 	for (int i = idx; i != n; i++) {
 		if (visited[i]) continue;
 		visited[i] = true;
-		team1.push_back(i);
+		team1[i] = true;
 		bt(depth + 1, team1, i + 1);
-		team1.pop_back();
+		team1[i] = false;
 		visited[i] = false;
 	}
 }
@@ -53,7 +51,7 @@ void solution() {
 		}
 	}
 
-	vector<int> team;
+	vector<bool> team(n);
 	bt(0, team, 0);
 	cout << ans;
 }
