@@ -1,59 +1,52 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include <queue>
 using namespace std;
 
-const int inf = 99999999;
-int v, e;
 vector<vector<pair<int, int>>> nodes;	// 가중치, 끝점
-vector<int> visited;
 vector<int> dist;
+const int inf = 1e9;
 
 void dijk(int start) {
 	dist[start] = 0;
-	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;	// 가중치 작은 것부터
+	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
 	pq.push({ 0, start });
-	
-	while (pq.empty() == false) {
-		int distance = pq.top().first;
+
+	while (pq.empty() == false) 
+	{
 		int cur = pq.top().second;
+		int distance = pq.top().first;
 		pq.pop();
 
 		if (dist[cur] < distance) continue;
 
-		for (int i = 0; i < nodes[cur].size(); i++) {
-			int nextDistance = distance + nodes[cur][i].first;
-			int next = nodes[cur][i].second;
-
-			if (dist[next] > nextDistance) {
-				dist[next] = nextDistance;
-				pq.push({ nextDistance, next });
+		for (auto& elem : nodes[cur]) {
+			int next = elem.second;
+			int nDistance = distance + elem.first;
+			if (dist[next] > nDistance) {
+				dist[next] = nDistance;
+				pq.push({ nDistance, next });
 			}
 		}
 	}
 }
 
 void solution() {
-	cin >> v >> e;
+	int v, e, k;
+	cin >> v >> e >> k;
 	nodes.resize(v + 1);
-	visited.resize(v + 1);
-	dist.resize(v + 1);
-
-	int start;
-	cin >> start;
-
-	for (int i = 1; i <= v; i++) {
-		dist[i] = inf;
-	}
+	dist = vector<int>(v + 1, inf);
+	
 	for (int i = 1; i <= e; i++) {
-		int u, v, w;
-		cin >> u >> v >> w;
-		nodes[u].push_back({ w, v });
+		int n1, n2, d;
+		cin >> n1 >> n2 >> d;
+		nodes[n1].push_back({ d, n2 });
 	}
 
-	dijk(start);
+	dijk(k);
 
-	for (int i = 1; i <= v; i++) {
+	for (int i = 1; i != dist.size(); i++) {
 		if (dist[i] == inf) cout << "INF" << '\n';
 		else cout << dist[i] << '\n';
 	}
@@ -62,7 +55,7 @@ void solution() {
 int main() {
 	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	int testCaseNum = 1;
-	//cin >> testCaseNum;
+	// cin >> testCaseNum;
 	for (int i = 0; i != testCaseNum; i++) { solution(); }
 	return 0;
 }
