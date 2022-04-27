@@ -49,16 +49,16 @@ void solution() {
 	}
 
 	int sum = 0;
-	vector<edge> nodesForExcept;
+	int maxC = 0;
 	for (int i = 0; i != nodes.size(); i++) {
 		if (false == findParent(nodes[i].n1, nodes[i].n2)) {
 			sum += nodes[i].c;
-			nodesForExcept.push_back({ nodes[i].n1, nodes[i].n2, nodes[i].c });
+			maxC = max(maxC, nodes[i].c);
 			unionParent(nodes[i].n1, nodes[i].n2);
 		}
 	}
 
-	cout << sum - nodesForExcept.back().c;
+	cout << sum - maxC;
 }
 
 int main() {
