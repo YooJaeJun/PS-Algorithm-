@@ -3,10 +3,10 @@ using namespace std;
 
 int n, k;
 const int inf = 1e9;
-int t[250000];
+int t[200001];
 
 void bfs() {
-	fill(t, t + 250000, inf);
+	fill(t, t + 200001, inf);
 	deque<int> dq;
 	t[n] = 0;
 	dq.push_front(n);
