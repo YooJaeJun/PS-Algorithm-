@@ -15,7 +15,7 @@ int solution(int N, vector<vector<int> > road, int K) {
     // dijk
     vector<int> dist(N + 1, 1e9);
     vector<bool> ans(N + 1);
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq; // 거리, 노드
+    priority_queue<pii, vector<pii>, greater<pii>> pq; // 거리, 노드
     pq.push({ 0, 1 });
     dist[1] = 0;
 
