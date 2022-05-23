@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int zeroCnt, oneCnt;
-
 vector<int> devideConquer(vector<vector<int>>& arr, int x, int y, int siz)    // x가 행
 {
     int zero = 0, one = 0;
