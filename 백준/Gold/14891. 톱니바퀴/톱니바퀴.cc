@@ -14,7 +14,8 @@ const int maxn = 1e9 + 7;
 const double mod = 1e9 + 7;
 
 
-vector<deque<char>> gear(4);
+const int t = 4;
+vector<deque<char>> gear(t);
 const int leftIdx = 6, rightIdx = 2;	// 맞닿은 인덱스
 
 void rotate(int dir, int idx)
@@ -31,55 +32,37 @@ void rotate(int dir, int idx)
 	}
 }
 
-void checkSideRotation(int idx, int dir)
+void roatateLeft(int dir, int idx, int i)
 {
-	if (idx - 1 >= 0)
+	if (idx - i < 0) return;
+
+	if (idx - i >= 0)
 	{
-		if (gear[idx][leftIdx] != gear[idx - 1][rightIdx])
+		if (gear[idx - i + 1][leftIdx] != gear[idx - i][rightIdx])
 		{
-			if (idx - 2 >= 0)
-			{
-				if (gear[idx - 1][leftIdx] != gear[idx - 2][rightIdx])
-				{
-					if (idx - 3 >= 0)
-					{
-						if (gear[idx - 2][leftIdx] != gear[idx - 3][rightIdx])
-						{
-							rotate(-dir, idx - 3);
-						}
-					}
-					rotate(dir, idx - 2);
-				}
-			}
-			rotate(-dir, idx - 1);
+			roatateLeft(-dir, idx, i + 1);
+			rotate(-dir, idx - i);
 		}
 	}
-	if (idx + 1 < 4)
+}
+
+void roatateRight(int dir, int idx, int i)
+{
+	if (idx + i >= t) return;
+
+	if (idx + i < t)
 	{
-		if (gear[idx][rightIdx] != gear[idx + 1][leftIdx])
+		if (gear[idx + i - 1][rightIdx] != gear[idx + i][leftIdx])
 		{
-			if (idx + 2 < 4)
-			{
-				if (gear[idx + 1][rightIdx] != gear[idx + 2][leftIdx])
-				{
-					if (idx + 3 < 4)
-					{
-						if (gear[idx + 2][rightIdx] != gear[idx + 3][leftIdx])
-						{
-							rotate(-dir, idx + 3);
-						}
-					}
-					rotate(dir, idx + 2);
-				}
-			}
-			rotate(-dir, idx + 1);
+			roatateRight(-dir, idx, i + 1);
+			rotate(-dir, idx + i);
 		}
 	}
 }
 
 void solution()
 {
-	forn(i, 4)
+	forn(i, t)
 	{
 		string s;
 		cin >> s;
@@ -96,12 +79,13 @@ void solution()
 		int idx, dir;
 		cin >> idx >> dir;
 		--idx;
-		checkSideRotation(idx, dir);
+		roatateLeft(dir, idx, 1);
+		roatateRight(dir, idx, 1);
 		rotate(dir, idx);
 	}
 
 	int ans = 0;
-	forn(i, 4)
+	forn(i, t)
 	{
 		if (gear[i][0] == '1') ans += pow(2, i);
 	}
