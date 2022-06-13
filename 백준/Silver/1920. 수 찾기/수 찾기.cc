@@ -1,41 +1,47 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
+#include <bits/stdc++.h>
+#include <unordered_map>
 using namespace std;
+#define int int64_t
+using ll = long long;
+using pii = pair<int, int>;
+using vi = vector<int>;
+using vvi = vector<vector<int>>;
+using db = deque<bool>;
+#define yes cout << "YES\n";
+#define no cout << "NO\n";
+#define forn(i, n) for (int i = 0; i < (int)n; i++)
+const int maxn = 1e9 + 7;
+const double mod = 1e9 + 7;
 
-int main() {
+
+void solution()
+{
 	int n;
-	scanf("%d", &n);
-	vector<int> a(n);
-	for (int i = 0; i != n; i++) {
-		scanf("%d", &a[i]);
+	cin >> n;
+	unordered_map<int, int> a;
+	forn(i, n)
+	{
+		int num;
+		cin >> num;
+		a[num] = 1;
 	}
-	sort(a.begin(), a.end());
 
 	int m;
-	scanf("%d", &m);
-	for (int i = 0; i != m; i++) {
+	cin >> m;
+	forn(i, m)
+	{
 		int num;
-		scanf("%d", &num);
-		int start = 0;
-		int end = a.size() - 1;
-		int middle;
-		bool found = false;
-		while(start <= end) {
-			middle = (start + end) / 2;
-			if (num == a[middle]) {
-				found = true;
-				break;
-			}
-			else if (num > a[middle]) {
-				start = middle + 1;
-			}
-			else {
-				end = middle - 1;
-			}
-		}
-		printf("%d\n", found);
+		cin >> num;
+		if (a[num]) cout << 1 << '\n';
+		else cout << 0 << '\n';
 	}
+}
 
+int32_t main()
+{
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	int t = 1;
+	// cin >> t;
+	for (int i = 0; i != t; i++) solution();
 	return 0;
 }
