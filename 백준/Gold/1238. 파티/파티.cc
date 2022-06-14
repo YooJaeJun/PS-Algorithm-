@@ -25,7 +25,7 @@ int n;
 vvi dist;
 vector<vector<town>> nodes;
 
-void dijk(int start, int end)
+void dijk(int start)
 {
 	priority_queue<town, vector<town>, greater<town>> pq;
 	pq.push({ 0, start });
@@ -66,26 +66,20 @@ void solution()
 
 	for (int i = 1; i <= n; i++)
 	{
-		if (i != x)	dijk(i, x);
+		if (i != x)	
+			dijk(i);
 		else
-		{
-			for (int j = 1; j <= n; j++)
-			{
-				dijk(x, j);
-			}
-		}
+			dijk(x);
 	}
 
 	int ans = 0;
 	for (int i = 1; i <= n; i++)
 	{
-		if (i != x)
+		if (i == x) continue;
+		if (dist[i][x] != maxn and dist[x][i] != maxn and
+			ans < dist[i][x] + dist[x][i])
 		{
-			if (dist[i][x] != maxn and dist[x][i] != maxn and
-				ans < dist[i][x] + dist[x][i])
-			{
-				ans = dist[i][x] + dist[x][i];
-			}
+			ans = dist[i][x] + dist[x][i];
 		}
 	}
 	cout << ans;
