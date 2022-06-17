@@ -15,19 +15,18 @@ const int mod = 10'007;
 int n, k;
 vvi memo;
 
+int comb(int n, int k)
+{
+	if (k == 0 or k == n) return 1;
+	if (memo[n][k]) return memo[n][k];
+	return memo[n][k] = (comb(n - 1, k) + comb(n - 1, k - 1)) % mod;
+}
+
 void solution()
 {
 	cin >> n >> k;
 	memo = vvi(n + 1, vi(n + 1));
-	for (int i = 0; i <= n; i++)
-	{
-		for (int j = 0; j <= min(i, k); j++)
-		{
-			if (j == 0 or j == i) memo[i][j] = 1;
-			else memo[i][j] = (memo[i - 1][j - 1] + memo[i - 1][j]) % mod;
-		}
-	}
-	cout << memo[n][k];
+	cout << comb(n, k);
 }
 
 int32_t main()
