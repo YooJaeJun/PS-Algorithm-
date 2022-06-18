@@ -12,8 +12,6 @@ using db = deque<bool>;
 const int maxn = 1e9;
 const double mod = 1e9 + 7;
 
-int memo[200'000][26];
-
 void solution()
 {
 	int n, k;
