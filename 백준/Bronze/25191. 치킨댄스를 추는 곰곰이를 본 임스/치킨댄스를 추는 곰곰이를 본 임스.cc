@@ -18,14 +18,7 @@ void solution()
 {
 	int n, a, b;
 	cin >> n >> a >> b;
-	int cnt = min(n, a / 2);
-	n -= a / 2;
-	if (n < 0)
-	{
-		cout << cnt; return;
-	}
-	cnt += min(n, b);
-	cout << cnt;
+	cout << min(n, a / 2 + b);
 }
 
 int32_t main()
