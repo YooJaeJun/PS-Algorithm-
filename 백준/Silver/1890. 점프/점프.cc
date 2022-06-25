@@ -13,11 +13,6 @@ using db = deque<bool>;
 const int maxn = 1e9 + 7;
 const double mod = 1e9 + 7;
 
-struct coord
-{
-	int x, y;
-};
-
 void solution()
 {
 	int n;
