@@ -29,7 +29,7 @@ void solution()
 	{
 		cin >> student[i].name >> student[i].korean >> student[i].english >> student[i].math;
 	}
-	sort(student.begin(), student.end(), [&](record a, record b) {
+	sort(student.begin(), student.end(), [&](const record& a, const record& b) {
 		if (a.korean == b.korean)
 		{
 			if (a.english == b.english)
