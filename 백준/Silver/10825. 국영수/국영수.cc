@@ -5,54 +5,56 @@ using ll = long long;
 using pii = pair<int, int>;
 using vi = vector<int>;
 using vvi = vector<vector<int>>;
+using db = deque<bool>;
+using ddb = deque<deque<bool>>;
+#define yes cout << "YES\n";
+#define no cout << "NO\n";
+#define forn(i, n) for (int i = 0; i < (int)n; i++)
+#define forn1(i, n) for (int i = 1; i <= (int)n; i++)
+const int maxn = 1e9 + 7;
+const double mod = 1e9 + 7;
 
-
-struct score {
+struct record
+{
 	string name;
 	int korean, english, math;
-	bool operator<(const score &s2) const {
-		if (korean > s2.korean) return 1;
-		else if (korean < s2.korean) return 0;
-		
-		if (english < s2.english) return 1;
-		else if (english > s2.english) return 0;
-		
-		if (math > s2.math) return 1;
-		else if (math < s2.math) return 0;
-		
-		if (name < s2.name) return 1;
-		else if (name > s2.name) return 0;
-
-		return 0;
-	}
 };
 
-bool compare(score s1, score s2) {
-	return s1 < s2;
-}
-
-void solution() {
+void solution()
+{
 	int n;
 	cin >> n;
-	vector<score> v;
-	for (int i = 0; i != n; i++) {
-		string name;
-		int korean, english, math;
-		cin >> name >> korean >> english >> math;
-		v.push_back({ name, korean, english, math });
+	vector<record> student(n);
+	forn(i, n)
+	{
+		cin >> student[i].name >> student[i].korean >> student[i].english >> student[i].math;
 	}
-
-	sort(v.begin(), v.end(), compare);
-
-	for (int i = 0; i != n; i++) {
-		cout << v[i].name << '\n';
+	sort(student.begin(), student.end(), [&](record a, record b) {
+		if (a.korean == b.korean)
+		{
+			if (a.english == b.english)
+			{
+				if (a.math == b.math)
+				{
+					return a.name < b.name;
+				}
+				return a.math > b.math;
+			}
+			return a.english < b.english;
+		}
+		return a.korean > b.korean;
+		});
+	for (auto& elem : student)
+	{
+		cout << elem.name << '\n';
 	}
 }
 
-int32_t main() {
+int32_t main()
+{
 	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	int t = 1;
 	// cin >> t;
-	for (int i = 0; i != t; i++) { solution(); }
+	for (int i = 0; i != t; i++) solution();
 	return 0;
 }
