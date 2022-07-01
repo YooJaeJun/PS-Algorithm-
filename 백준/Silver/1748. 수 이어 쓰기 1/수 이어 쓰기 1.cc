@@ -19,23 +19,11 @@ void solution()
 {
 	int n;
 	cin >> n;
-	int nCopy = n;
-
-	int digit = 0;
-	while (n) 
-	{ 
-		n /= 10;
-		digit++;
-	}
-
-	int coef = 9;
 	int sum = 0;
-	for (int i = 1; i < digit; i++)
+	for (int i = 1; i <= n; i *= 10)
 	{
-		sum += (coef * i) - (coef / 10) * i;
-		coef = coef * 10 + 9;
+		sum += n - (i - 1);
 	}
-	sum += (nCopy - coef / 10) * digit;
 	cout << sum;
 }
 
