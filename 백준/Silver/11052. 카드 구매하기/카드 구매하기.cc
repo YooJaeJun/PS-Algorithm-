@@ -6,9 +6,11 @@ using pii = pair<int, int>;
 using vi = vector<int>;
 using vvi = vector<vector<int>>;
 using db = deque<bool>;
+using ddb = deque<deque<bool>>;
 #define yes cout << "YES\n";
 #define no cout << "NO\n";
 #define forn(i, n) for (int i = 0; i < (int)n; i++)
+#define forn1(i, n) for (int i = 1; i <= (int)n; i++)
 const int maxn = 1e9 + 7;
 const double mod = 1e9 + 7;
 
@@ -18,12 +20,9 @@ void solution()
 	int n;
 	cin >> n;
 	vi dp(n + 1);
-	for (int i = 1; i <= n; i++) cin >> dp[i];
-	for (int i = 1; i <= n; i++)
-		for (int j = 2; i * j <= n; j++)
-			dp[i * j] = max(dp[i * j], dp[i] * j);
+	forn1(i, n) cin >> dp[i];
 
-	for (int i = 1; i <= n; i++)
+	forn1(i, n)
 		for (int j = 1; j < i; j++)
 			dp[i] = max(dp[i], dp[j] + dp[i - j]);
 
