@@ -25,12 +25,7 @@ void solution()
 	int n, m, k;
 	cin >> n >> m >> k;
 	vector<string> grid(n);
-	forn(i, n)
-	{
-		string s;
-		cin >> s;
-		grid[i] = s;
-	}
+	forn(i, n) cin >> grid[i];
 
 	int dx[4] = { 0,0,1,-1 };
 	int dy[4] = { 1,-1,0,0 };
@@ -38,7 +33,7 @@ void solution()
 	vvvi visited = vvvi(n, vvi(m, vi(k + 1)));
 	visited[0][0][0] = 1;
 
-	function<void()> bfs = [&]()
+	auto bfs = [&]()
 	{
 		queue<coord> q;
 		q.push({ 0, 0, 0 });
@@ -55,7 +50,6 @@ void solution()
 				ans = visited[x][y][breaking];
 				return;
 			}
-
 			forn(i, 4)
 			{
 				int nx = x + dx[i];
