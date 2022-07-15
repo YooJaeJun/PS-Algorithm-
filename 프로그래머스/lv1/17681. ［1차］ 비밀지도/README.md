@@ -1,10 +1,10 @@
 # [level 1] [1차] 비밀지도 - 17681 
 
-[문제 링크](https://programmers.co.kr/learn/courses/30/lessons/17681) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/17681) 
 
 ### 성능 요약
 
-메모리: 4.33 MB, 시간: 0.01 ms
+메모리: 4.09 MB, 시간: 0.01 ms
 
 ### 구분
 
