@@ -21,9 +21,9 @@ vvi grid(n, vi(m));
 vector<tagCctv> cctv;
 int cctvNum, wallNum;
 vi dir;
-enum edir { none, right, left, bottom, top };
-const int dr[5] = { 0,0,0,1,-1 };
-const int dc[5] = { 0,1,-1,0,0 };
+// 동남서북: 나머지연산하기 좋게
+const int dr[4] = { 0,1,0,-1 };
+const int dc[4] = { 1,0,-1,0 };
 ddb visited;
 
 bool checkGrid(const int r, const int c)
@@ -53,89 +53,35 @@ void checkCnt(int& cnt, int nr, int nc, const int direction)
 void checkArea(const int i, int& cnt)
 {
 	const int& kind = cctv[i].kind;
-	int& r = cctv[i].r;
-	int& c = cctv[i].c;
-	const int direction = dir[i];
-	int nr = r, nc = c;
+	int nr = cctv[i].r, nc = cctv[i].c;
 
 	switch (kind)
 	{
 	case 1:
-		checkCnt(cnt, nr, nc, direction);
+		checkCnt(cnt, nr, nc, dir[i]);
 		break;
 
 	case 2:
-		if (direction == 1)
-		{
-			checkCnt(cnt, nr, nc, edir::left);
-			checkCnt(cnt, nr, nc, edir::right);
-
-			break;
-		}
-		else if (direction == 2)
-		{
-			checkCnt(cnt, nr, nc, edir::bottom);
-			checkCnt(cnt, nr, nc, edir::top);
-
-			break;
-		}
+		checkCnt(cnt, nr, nc, dir[i]);
+		checkCnt(cnt, nr, nc, (dir[i] + 2) % 4);
 		break;
 
 	case 3:
-		if (direction == 1)
-		{
-			checkCnt(cnt, nr, nc, edir::top);
-			checkCnt(cnt, nr, nc, edir::right);
-		}
-		else if (direction == 2)
-		{
-			checkCnt(cnt, nr, nc, edir::right);
-			checkCnt(cnt, nr, nc, edir::bottom);
-		}
-		else if (direction == 3)
-		{
-			checkCnt(cnt, nr, nc, edir::bottom);
-			checkCnt(cnt, nr, nc, edir::left);
-		}
-		else if (direction == 4)
-		{
-			checkCnt(cnt, nr, nc, edir::left);
-			checkCnt(cnt, nr, nc, edir::top);
-		}
+		checkCnt(cnt, nr, nc, dir[i]);
+		checkCnt(cnt, nr, nc, (dir[i] + 1) % 4);
 		break;
 
 	case 4:
-		if (direction == 1)
-		{
-			checkCnt(cnt, nr, nc, edir::left);
-			checkCnt(cnt, nr, nc, edir::top);
-			checkCnt(cnt, nr, nc, edir::right);
-		}
-		else if (direction == 2)
-		{
-			checkCnt(cnt, nr, nc, edir::top);
-			checkCnt(cnt, nr, nc, edir::right);
-			checkCnt(cnt, nr, nc, edir::bottom);
-		}
-		else if (direction == 3)
-		{
-			checkCnt(cnt, nr, nc, edir::right);
-			checkCnt(cnt, nr, nc, edir::bottom);
-			checkCnt(cnt, nr, nc, edir::left);
-		}
-		else if (direction == 4)
-		{
-			checkCnt(cnt, nr, nc, edir::bottom);
-			checkCnt(cnt, nr, nc, edir::left);
-			checkCnt(cnt, nr, nc, edir::top);
-		}
+		checkCnt(cnt, nr, nc, dir[i]);
+		checkCnt(cnt, nr, nc, (dir[i] + 1) % 4);
+		checkCnt(cnt, nr, nc, (dir[i] + 2) % 4);
 		break;
 
 	case 5:
-		checkCnt(cnt, nr, nc, edir::left);
-		checkCnt(cnt, nr, nc, edir::right);
-		checkCnt(cnt, nr, nc, edir::top);
-		checkCnt(cnt, nr, nc, edir::bottom);
+		checkCnt(cnt, nr, nc, dir[i]);
+		checkCnt(cnt, nr, nc, (dir[i] + 1) % 4);
+		checkCnt(cnt, nr, nc, (dir[i] + 2) % 4);
+		checkCnt(cnt, nr, nc, (dir[i] + 3) % 4);
 		break;
 	}
 }
@@ -146,7 +92,8 @@ void backTraking(int depth, int idx)
 	{
 		visited = ddb(n, db(m));
 		int cnt = 0;
-		forn(i, cctvNum) checkArea(i, cnt);
+		forn(i, cctvNum) 
+			checkArea(i, cnt);
 		ans = min(ans, n * m - cnt - cctvNum - wallNum);
 		return;
 	}
@@ -160,7 +107,7 @@ void backTraking(int depth, int idx)
 		else if (kind == 2) dirIdx = 2;
 		else dirIdx = 1;
 
-		forn1(j, dirIdx)
+		forn(j, dirIdx)
 		{
 			int temp = dir[i];
 			dir[i] = j;
