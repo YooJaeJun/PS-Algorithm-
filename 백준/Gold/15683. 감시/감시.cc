@@ -86,9 +86,9 @@ void checkArea(const int i, int& cnt)
 	}
 }
 
-void backTraking(int depth, int idx)
+void recur(int cur)
 {
-	if (depth == cctvNum)
+	if (cur == cctvNum)
 	{
 		visited = ddb(n, db(m));
 		int cnt = 0;
@@ -98,22 +98,17 @@ void backTraking(int depth, int idx)
 		return;
 	}
 
-	for (int i = idx; i < cctvNum; i++)
-	{
-		int kind = cctv[i].kind;
-		int dirIdx = 0;
-		// 1-4번, 2-2번, 3-4번, 4-4번, 5-1번
-		if (kind == 1 or kind == 3 or kind == 4) dirIdx = 4;
-		else if (kind == 2) dirIdx = 2;
-		else dirIdx = 1;
+	const int kind = cctv[cur].kind;
+	int dirIdx = 0;
+	// 1-4번, 2-2번, 3-4번, 4-4번, 5-1번
+	dirIdx = (kind == 1 or kind == 3 or kind == 4 ? 4 : kind == 2 ? 2 : 1);
 
-		forn(j, dirIdx)
-		{
-			int temp = dir[i];
-			dir[i] = j;
-			backTraking(depth + 1, i + 1);
-			dir[i] = temp;
-		}
+	forn(j, dirIdx)
+	{
+		int temp = dir[cur];
+		dir[cur] = j;
+		recur(cur + 1);
+		dir[cur] = temp;
 	}
 }
 
@@ -135,7 +130,7 @@ void solution()
 	cctvNum = cctv.size();
 	dir.resize(cctvNum);
 
-	backTraking(0, 0);
+	recur(0);
 
 	cout << ans;
 }
