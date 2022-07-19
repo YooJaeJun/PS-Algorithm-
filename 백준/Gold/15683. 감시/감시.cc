@@ -14,7 +14,10 @@ using ddb = deque<deque<bool>>;
 const int maxn = 1e9 + 7;
 const double mod = 1e9 + 7;
 
-struct tagCctv { int r, c, kind; };
+struct tagCctv 
+{ 
+	int r, c, kind; 
+};
 int n, m;
 int ans = maxn;
 vvi grid(n, vi(m));
@@ -54,7 +57,7 @@ void checkArea(const int i, int& cnt)
 {
 	const int& kind = cctv[i].kind;
 	int nr = cctv[i].r, nc = cctv[i].c;
-
+	// 동남서북
 	switch (kind)
 	{
 	case 1:
@@ -90,10 +93,9 @@ void recur(int cur)
 {
 	if (cur == cctvNum)
 	{
-		visited = ddb(n, db(m));
+		for (auto& elem : visited) fill(elem.begin(), elem.end(), false);
 		int cnt = 0;
-		forn(i, cctvNum) 
-			checkArea(i, cnt);
+		forn(i, cctvNum) checkArea(i, cnt);	// 영역체크
 		ans = min(ans, n * m - cnt - cctvNum - wallNum);
 		return;
 	}
@@ -103,10 +105,10 @@ void recur(int cur)
 	// 1-4번, 2-2번, 3-4번, 4-4번, 5-1번
 	dirIdx = (kind == 1 or kind == 3 or kind == 4 ? 4 : kind == 2 ? 2 : 1);
 
-	forn(j, dirIdx)
+	forn(i, dirIdx)
 	{
 		int temp = dir[cur];
-		dir[cur] = j;
+		dir[cur] = i;
 		recur(cur + 1);
 		dir[cur] = temp;
 	}
@@ -116,14 +118,16 @@ void solution()
 {
 	cin >> n >> m;
 	grid = vvi(n, vi(m));
+	visited = ddb(n, db(m));
 	forn(r, n)
 	{
 		forn(c, m)
 		{
 			cin >> grid[r][c];
-			if (grid[r][c] >= 1 and grid[r][c] <= 5)
-				cctv.push_back({ r, c, grid[r][c] });
-			else if (grid[r][c] == 6)
+			const int cur = grid[r][c];
+			if (cur >= 1 and cur <= 5)
+				cctv.push_back({ r, c, cur });
+			else if (cur == 6)
 				wallNum++;
 		}
 	}
