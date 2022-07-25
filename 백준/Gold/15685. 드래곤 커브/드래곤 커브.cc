@@ -18,48 +18,28 @@ const double mod = 1e9 + 7;
 
 void solution()
 {
-	enum edir { right, top, left, bottom };
 	int dr[4] = { 0,-1,0,1 };
 	int dc[4] = { 1,0,-1,0 };
-
 	int n;
 	cin >> n;
 	vvi grid(101, vi(101));
+
 	while (n--)
 	{
 		int r, c, d, g;
 		cin >> c >> r >> d >> g;	// x, y
-
-		vi dirs;
-		// 시작점
 		grid[r][c] = 1;
-		// 0세대
-		r = r + dr[d];
-		c = c + dc[d];
-		grid[r][c] = 1;
-		dirs.push_back(d);
+		vi dirs{ d };
 
-		if (g < 1) continue;
-		// 1세대
-		r = r + dr[(d + 1) % 4];
-		c = c + dc[(d + 1) % 4];
-		grid[r][c] = 1;
-		dirs.push_back((d + 1) % 4);
+		while (g--)
+			for (int i = dirs.size() - 1; i >= 0; i--)
+				dirs.push_back((dirs[i] + 1) % 4);
 
-		// 2~ 세대
-		int t = pow(2, g);
-		int forCompare = 2, coef = 0, dirIdx = 0;
-		for (int cur = 3; cur <= t; cur++)
+		for (auto& dir : dirs)
 		{
-			coef = (cur - forCompare <= forCompare / 2) ? 2 : 0;	// 3 .. 5,6 .. 9,10,11,12 .. 캐치 위한 식
-
-			dirIdx = (dirs[cur - forCompare - 1] + coef) % 4;
-			r = r + dr[dirIdx];
-			c = c + dc[dirIdx];
+			r += dr[dir];
+			c += dc[dir];
 			grid[r][c] = 1;
-
-			dirs.push_back(dirIdx);
-			if (cur % forCompare == 0) forCompare *= 2;
 		}
 	}
 
