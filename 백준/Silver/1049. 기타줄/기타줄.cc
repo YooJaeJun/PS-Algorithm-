@@ -5,36 +5,33 @@ using ll = long long;
 using pii = pair<int, int>;
 using vi = vector<int>;
 using vvi = vector<vector<int>>;
-#define yes cout << "YES\n";
-#define no cout << "NO\n";
-const int maxn = 1e9 + 7;
-const double mod = 1e9 + 7;
+using db = deque<bool>;
+using ddb = deque<deque<bool>>;
+#define forn(i, n) for (int i = 0; i < (int)n; i++)
+#define forn1(i, n) for (int i = 1; i <= (int)n; i++)
+#define inGrid() ((nr >= 0) and (nr < n) and (nc >= 0) and (nc < m))
+int dr[4] = { 0,0,-1,1 };
+int dc[4] = { -1,1,0,0 };	// 좌우상하
 
 
 void solution()
 {
 	int n, m;
 	cin >> n >> m;
-	vi set(m), one(m);
-	for (int i = 0; i < m; i++)
-		cin >> set[i] >> one[i];
-
-	sort(set.begin(), set.end());
+	vi pack(m), one(m);
+	forn(i, m)
+	{
+		cin >> pack[i];
+		cin >> one[i];
+	}
+	sort(pack.begin(), pack.end());
 	sort(one.begin(), one.end());
 
-	int ans = 0;
-	// 6개씩
-	int setPrice = set[0] * (n / 6);
-	int onePrice = one[0] * ((n / 6) * 6);	// 같은 양 비교 위해 int 형변환 시 버림 이용
-	if (onePrice > setPrice) ans += setPrice;
-	else ans += onePrice;
-	// 나머지
-	setPrice = set[0];
-	onePrice = one[0] * (n % 6);
-	if (onePrice > setPrice) ans += setPrice;
-	else ans += onePrice;
-
-	cout << ans;
+	int sum = 0;
+	sum += min(pack[0] * (n / 6) + one[0] * (n % 6),
+		min(one[0] * n, 
+			pack[0] * (n / 6 + 1)));
+	cout << sum;
 }
 
 int32_t main()
@@ -42,6 +39,6 @@ int32_t main()
 	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 	int t = 1;
 	// cin >> t;
-	for (int i = 0; i != t; i++) solution();
+	while (t--) solution();
 	return 0;
 }
