@@ -19,25 +19,10 @@ void solution()
 	int n;
 	cin >> n;
 	vi v(n);
-	int diff = 0, ratio = 0;
-	bool state = 0;	// 등차, 등비
-	forn(i, n)
-	{
-		cin >> v[i];
-		if (i == 1) diff = v[1] - v[0];
-		else if (i > 1)
-		{
-			if (diff == v[i] - v[i - 1]) state = 0;
-			else
-			{
-				state = 1;
-				ratio = v[i] / v[i - 1];
-			}
-		}
-	}
+	forn(i, n) cin >> v[i];
 
-	if (state == 0) cout << v[n - 1] + diff;
-	else cout << v[n - 1] * ratio;
+	if (v[2] - v[1] == v[1] - v[0]) cout << v[n - 1] + (v[2] - v[1]);
+	else cout << v[n - 1] * (v[2] / v[1]);
 }
 
 int32_t main()
