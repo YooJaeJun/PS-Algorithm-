@@ -1,26 +1,22 @@
-#include <string>
-#include <vector>
-#include <map>
-
+#include <bits/stdc++.h>
 using namespace std;
 
 bool solution(vector<string> phone_book) {
     map<string, int> dic;
-    for (auto& elem : phone_book) {
-        dic[elem]++;
-    }
-    for (auto it = dic.begin(); it != --dic.end(); ) {
-        string s1 = it++->first;
-        string s2 = it->first;
-        int minSize = min(s1.size(), s2.size());
-        bool isSame = true;
-        for (int i = 0; i != minSize; i++) {
-            if (s1[i] != s2[i]) {
-                isSame = false;
-                break;
-            }
+    for(auto& number : phone_book) dic[number]++;
+    
+    string s1, s2;
+    int minSize;
+    auto endBefore = --dic.end();
+    for(auto it = dic.begin(); it != endBefore; )
+    {
+        s1 = it++->first;
+        s2 = it->first;
+        minSize = min(s1.size(), s2.size());
+        if (s1.substr(0, minSize) == s2.substr(0, minSize))
+        {
+            return false;
         }
-        if (isSame) { return false; }
     }
     return true;
 }
