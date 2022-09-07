@@ -22,6 +22,7 @@ void solution()
 	db isPrime(b + 1, true);
 	isPrime[0] = isPrime[1] = false;
 	vi primes;
+	vi primeNums(b + 1);
 	for (int i = 2; i <= b; i++)
 	{
 		if (isPrime[i])
@@ -30,26 +31,19 @@ void solution()
 			for (int j = 2; i * j <= b; j++)
 			{
 				isPrime[i * j] = false;
+				int temp = i * j;
+				while (temp % i == 0)
+				{
+					temp /= i;
+					primeNums[i * j]++;		// 소수 세면서 소인수분해한 수까지 세보자
+				}
 			}
 		}
 	}
-
 	int ans = 0;
 	for (int i = a; i <= b; i++)
 	{
-		int num = i;
-		int primeNum = 0;
-		forn(j, primes.size())
-		{
-			if (num % primes[j] == 0)
-			{
-				num /= primes[j];
-				primeNum++;
-				j = -1;
-			}
-			if (num < j) break;
-		}
-		if (isPrime[primeNum]) 
+		if (isPrime[primeNums[i]]) 
 			ans++;
 	}
 	cout << ans;
