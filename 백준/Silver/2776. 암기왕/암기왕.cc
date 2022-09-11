@@ -13,24 +13,23 @@ using ddb = deque<deque<bool>>;
 int dr[4] = { 0,0,-1,1 };
 int dc[4] = { -1,1,0,0 };	// 좌우상하
 
+vi v;
 
 void solution()
 {
-	unordered_map<int, int> dic1;
 	int n;
+	cin >> n;
+	v.clear();
+	v.resize(n);
+	forn(i, n) cin >> v[i];
+	sort(v.begin(), v.end());
+
 	cin >> n;
 	int num;
 	forn(i, n)
 	{
 		cin >> num;
-		dic1[num]++;
-	}
-	cin >> n;
-	forn(i, n)
-	{
-		cin >> num;
-		if (dic1[num]) cout << 1 << '\n';
-		else cout << 0 << '\n';
+		cout << binary_search(v.begin(), v.end(), num) << '\n';
 	}
 }
 
