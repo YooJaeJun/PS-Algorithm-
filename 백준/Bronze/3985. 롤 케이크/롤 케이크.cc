@@ -23,7 +23,7 @@ void solution()
 
 	int diffMax = 0, diffMaxIdx = 0;
 	int most = 0, mostIdx = 0;
-	map<int, bool> dic;
+	unordered_map<int, bool> dic;
 
 	forn(i, n)
 	{
