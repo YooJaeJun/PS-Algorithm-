@@ -18,16 +18,10 @@ void solution()
 {
 	int x;
 	cin >> x;
-	int n = 64, ans = 0;
-	while (1)
+	int ans = 0;
+	for (int i = 0; i <= 8; i++)
 	{
-		while (n > x)
-		{
-			n /= 2;
-		}
-		x -= n;
-		ans++;
-		if (x == 0) break;
+		if (x & (1 << i)) ans++;
 	}
 	cout << ans;
 }
