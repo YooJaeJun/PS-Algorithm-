@@ -1,26 +1,24 @@
 #include <string>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
 vector<int> solution(int n) {
     vector<int> answer;
-    int temp = n;
-    while(temp != 1)
+    int divisor = 2;
+    while(n > 1)
     {
-        for (int i=2; i<=temp; i++)
+        if (n % divisor == 0)
         {
-            if (temp % i == 0)
+            n /= divisor;
+            answer.push_back(divisor);
+            while(n % divisor == 0)
             {
-                answer.push_back(i);
-                temp /= i;
-                break;
+                n /= divisor;
             }
         }
+        divisor++;
     }
-    sort(answer.begin(), answer.end());
-    answer.erase(unique(answer.begin(), answer.end()), answer.end());
     
     return answer;
 }
