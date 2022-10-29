@@ -19,11 +19,14 @@ void solution()
 	int n;
 	cin >> n;
 	vector<double> dirPercent(4);
-	cin >> dirPercent[0] >> dirPercent[1] >> dirPercent[2] >> dirPercent[3];
-	for (auto& elem : dirPercent) elem /= 100;
+	for (auto& elem : dirPercent)
+	{
+		cin >> elem;
+		elem /= 100;
+	}
 
 	double ans = 0.0f;
-	map<pair<int, int>, bool> visited;
+	ddb visited(31, db(31));
 
 	function<void(int, int, int, double)> dfs = [&](int r, int c, int n, double percent)
 	{
@@ -33,19 +36,19 @@ void solution()
 			return;
 		}
 
+		visited[r][c] = true;
 		for (int i = 0; i < 4; i++)
 		{
 			if (dirPercent[i] == 0) continue;
 			int nr = r + dr[i];
 			int nc = c + dc[i];
-			if (visited[{nr, nc}]) continue;
-			visited[{nr, nc}] = true;
+			if (visited[nr][nc]) continue;
+			visited[nr][nc] = true;
 			dfs(nr, nc, n - 1, percent * dirPercent[i]);
-			visited[{nr, nc}] = false;
+			visited[nr][nc] = false;
 		}
 	};
-	visited[{0, 0}] = true;
-	dfs(0, 0, n, 1.0);
+	dfs(15, 15, n, 1.0);
 
 	cout << fixed;
 	cout.precision(9);
