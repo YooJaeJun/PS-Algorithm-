@@ -1,22 +1,16 @@
 #include <string>
 #include <vector>
-#include <numeric>
+#include <functional>
 
 using namespace std;
 
-__int128 solution(int balls, int share) {
-    long double answer = 1;
-    
-    int start = share + 1; 
-    int divisor = balls - share;
-    for (int i=start; i<=balls; i++)
+int solution(int balls, int share) {
+    function<int(int, int)> combi = [&](int n, int r)
     {
-        answer *= i;
-    }
-    for (int divisor=balls - share; divisor>1; divisor--)
-    {
-        answer /= divisor;
-    }
-    
-    return (__int128)answer;
+        if (r == 0) return 1;
+        else if (n == 1) return 1;
+        else if (r >= n) return 1;
+        return combi(n-1, r) + combi(n-1, r-1);
+    };
+    return combi(balls, share);
 }
