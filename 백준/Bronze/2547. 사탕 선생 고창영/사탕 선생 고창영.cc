@@ -16,9 +16,9 @@ int dc[4] = { -1,1,0,0 };	// 좌우상하
 
 void solution()
 {
-	unsigned long long n;
+	int n;
 	cin >> n;
-	unsigned long long sum = 0;
+	int sum = 0;
 
 	forn(i, n)
 	{
