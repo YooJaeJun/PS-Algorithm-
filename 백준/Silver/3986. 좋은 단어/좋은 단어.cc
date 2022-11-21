@@ -19,26 +19,23 @@ void solution()
 	int n;
 	cin >> n;
 	int ans = 0;
+	string s;
 
 	forn(i, n)
 	{
-		string s;
 		cin >> s;
 		stack<char> st;
 
 		for (auto& ch : s)
 		{
 			if (st.empty()) st.push(ch);			
-			else if ((st.top() == 'A' and ch == 'A') or
-				(st.top() == 'B' and ch == 'B'))
-			{
-				st.pop();
-			}
+			else if (st.top() == ch) st.pop();
 			else st.push(ch);
 		}
-		
+
 		if (st.empty()) ans++;
 	}
+
 	cout << ans;
 }
 
