@@ -23,18 +23,17 @@ void solution()
 	{
 		cin >> w[i] >> v[i];
 	}
-	vvi dp(n + 1, vi(t + 1));
+	vi dp(t + 1);
 	
 	for (int i = 1; i <= n; i++)
 	{
-		for (int j = 1; j <= t; j++)
+		for (int j = t; j >= w[i]; j--)
 		{
-			if (j < w[i]) dp[i][j] = dp[i - 1][j];
-			else dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w[i]] + v[i]);
+			dp[j] = max(dp[j], dp[j - w[i]] + v[i]);
 		}
 	}
 
-	cout << dp[n][t];
+	cout << dp[t];
 }
 
 int32_t main()
