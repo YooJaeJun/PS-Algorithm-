@@ -1,70 +1,83 @@
-#include <iostream>
-#include <vector>
-#include <queue>
+#include <bits/stdc++.h>
 using namespace std;
+#define int int64_t
+using ll = long long;
+using pii = pair<int, int>;
+using vi = vector<int>;
+using vvi = vector<vector<int>>;
+using db = deque<bool>;
+using ddb = deque<deque<bool>>;
+#define forn(i, n) for (int i = 0; i < (int)n; i++)
+#define forn1(i, n) for (int i = 1; i <= (int)n; i++)
+#define inGrid() ((nr >= 0) and (nr < n) and (nc >= 0) and (nc < m))
+int dr[4] = { 0,0,-1,1 };
+int dc[4] = { -1,1,0,0 };	// 좌우상하
 
-const int inf = 99999999;
-int v, e;
-vector<vector<pair<int, int>>> nodes;
-vector<int> visited;
-vector<int> dist;
 
-void dijk(int start) {
-	dist[start] = 0;
-	priority_queue<pair<int, int>> pq;
-	pq.push({ start, 0 });
-	
-	while (pq.empty() == false) {
-		int cur = pq.top().first;
-		int distance = -pq.top().second;
-		pq.pop();
-		if (dist[cur] < distance) continue;
+void solution()
+{
+	const int inf = 1e9;
 
-		for (int i = 0; i < nodes[cur].size(); i++) {
-			int next = nodes[cur][i].first;
-			int nextDistance = distance + nodes[cur][i].second;
-			if (dist[next] > nextDistance) {
-				dist[next] = nextDistance;
-				pq.push({ next, -nextDistance });
-			}
-		}
-	}
-}
+	vi dist;
+	int n, m, k, x;
+	cin >> n >> m >> k >> x;
+	dist.resize(n + 1, inf);
+	vector<vector<pii>> nodes(n + 1);
 
-void solution() {
-	int k, x;
-	cin >> v >> e >> k >> x;
-	nodes.resize(v + 1);
-	visited.resize(v + 1);
-	dist.resize(v + 1);
-
-	for (int i = 1; i <= v; i++) {
-		dist[i] = inf;
-	}
-	for (int i = 1; i <= e; i++) {
+	forn1(i, m)
+	{
 		int u, v;
 		cin >> u >> v;
 		nodes[u].push_back({ v, 1 });
 	}
 
+
+	auto dijk = [&](int start)
+	{
+		dist[start] = 0;
+		priority_queue<pii, vector<pii>, greater<pii>> pq;
+		pq.push({ 0, start });
+		
+		while (pq.empty() == false)
+		{
+			int cur = pq.top().second;
+			int distance = pq.top().first;
+			pq.pop();
+			
+			if (dist[cur] < distance) continue;
+
+			for (auto& elem : nodes[cur])
+			{
+				int next = elem.first;
+				int nextDistance = distance + elem.second;
+
+				if (dist[next] > nextDistance)
+				{
+					dist[next] = nextDistance;
+					pq.push({ nextDistance, next });
+				}
+			}
+		}
+	};
 	dijk(x);
 
-	bool isAns = false;
-	for (int i = 1; i <= v; i++) {
-		if (dist[i] == k) {
-			isAns = true;
+	bool flag = false;
+	forn1(i, n)
+	{
+		if (dist[i] == k)
+		{
+			flag = true;
 			cout << i << '\n';
 		}
 	}
-	if (isAns == false) {
-		cout << -1;
-	}
+	if (!flag) cout << -1;
 }
 
-int main() {
+int32_t main()
+{
 	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	int testCaseNum = 1;
-	//cin >> testCaseNum;
-	for (int i = 0; i != testCaseNum; i++) { solution(); }
+	int t = 1;
+	// cin >> t;
+	while (t--) solution();
 	return 0;
 }
