@@ -22,44 +22,51 @@ void solution()
 	int n, m, k, x;
 	cin >> n >> m >> k >> x;
 	dist.resize(n + 1, inf);
-	vector<vector<pii>> nodes(n + 1);
+	vvi adj(n + 1);
 
 	forn1(i, m)
 	{
 		int u, v;
 		cin >> u >> v;
-		nodes[u].push_back({ v, 1 });
+		adj[u].push_back(v);
 	}
 
-
-	auto dijk = [&](int start)
+	for (int i = 1; i < n; i++)
 	{
-		dist[start] = 0;
-		priority_queue<pii, vector<pii>, greater<pii>> pq;
-		pq.push({ 0, start });
-		
-		while (pq.empty() == false)
+		sort(adj[i].begin(), adj[i].end());
+	}
+
+	vi visited(n + 1);
+	queue<int> q;
+
+
+	auto bfs = [&](int x)
+	{
+		visited[x] = true;
+		dist[x] = 0;
+		q.push(x);
+
+		while (!q.empty())
 		{
-			int cur = pq.top().second;
-			int distance = pq.top().first;
-			pq.pop();
-			
-			if (dist[cur] < distance) continue;
+			int cur = q.front();
+			q.pop();
 
-			for (auto& elem : nodes[cur])
+			for (auto& elem : adj[cur])
 			{
-				int next = elem.first;
-				int nextDistance = distance + elem.second;
+				if (visited[elem]) continue;
+				visited[elem] = true;
+				dist[elem] = dist[cur] + 1;
 
-				if (dist[next] > nextDistance)
+				if (dist[elem] > k)
 				{
-					dist[next] = nextDistance;
-					pq.push({ nextDistance, next });
+					while (q.size()) q.pop();
+					break;
 				}
+				q.push(elem);
 			}
 		}
 	};
-	dijk(x);
+	bfs(x);
 
 	bool flag = false;
 	forn1(i, n)
