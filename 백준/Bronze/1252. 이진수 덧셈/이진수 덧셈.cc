@@ -46,12 +46,12 @@ void solution()
 
 	if (factor == 1) ans += '1';
 
+	while (ans.size() != 1 and ans.back() == '0')
+	{
+		ans.pop_back();
+	}
 	reverse(ans.begin(), ans.end());
 
-	while (ans.size() != 1 and ans[0] == '0')
-	{
-		ans.erase(ans.begin());
-	}
 	cout << ans;
 }
 
