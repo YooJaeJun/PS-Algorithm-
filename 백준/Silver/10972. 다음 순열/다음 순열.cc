@@ -21,19 +21,11 @@ void solution()
 	vi v(n);
 	forn(i, n) cin >> v[i];
 	
-	next_permutation(v.begin(), v.end());
-
-	bool flag = true;
-	forn(i, n - 1)
+	if (next_permutation(v.begin(), v.end()))
 	{
-		if (v[i] > v[i + 1])
-		{
-			flag = false;
-		}
+		forn(i, n) cout << v[i] << ' ';
 	}
-
-	if (flag) cout << -1;
-	else forn(i, n) cout << v[i] << ' ';
+	else cout << -1;
 }
 
 int32_t main()
