@@ -30,6 +30,7 @@ int solution(int k, vector<int> tangerine) {
             cur = 0;
             ans++;
         }
+        else break;
     }
     return ans;
 }
