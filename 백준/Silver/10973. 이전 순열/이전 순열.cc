@@ -37,17 +37,15 @@ void solution()
 		return;
 	}
 
-	int maxIdx = idx + 1;
-	for (int i = idx + 1; i < n; i++)
+	for (int i = n - 1; i > idx; i--)
 	{
-		if (v[i] < v[idx] and v[i] >= v[maxIdx])
+		if (v[i] < v[idx])
 		{
-			maxIdx = i;
+			swap(v[idx], v[i]);
+			sort(v.begin() + idx + 1, v.end(), greater<int>());
+			break;
 		}
 	}
-
-	swap(v[idx], v[maxIdx]);
-	sort(v.begin() + idx + 1, v.end(), greater<int>());
 
 	for (auto& elem : v) cout << elem << ' ';
 }
