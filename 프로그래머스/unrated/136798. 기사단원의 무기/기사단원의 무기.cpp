@@ -10,17 +10,19 @@ int solution(int number, int limit, int power) {
     
     function<int(int)> func = [&](const int n)
     {
-        int sq = sqrt(n);
+        if (memo[n])
+            return memo[n];
+        
         int res = 0;
-        for (int i=1; i<=sq; i++)
+        
+        for (int i=1; i*i<=n; i++)
         {
-            if (n % i == 0)
-            {
-                if (i == sq && sq * sq == n)
-                    res++;
-                else
-                    res += 2;
-            }
+            if (n % i != 0)
+                continue;
+            if (i * i == n)
+                res++;
+            else
+                res += 2;
         }
         return memo[n] = res > limit ? power : res;
     };
@@ -28,12 +30,7 @@ int solution(int number, int limit, int power) {
     int answer = 0;
     
     for (int i=number; i>=1; i--)
-    {
-        if (memo[i])
-            answer += memo[i];
-        else
-            answer += func(i);
-    }
+        answer += func(i);
     
     return answer;
 }
