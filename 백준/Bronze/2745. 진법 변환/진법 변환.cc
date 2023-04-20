@@ -1,41 +1,21 @@
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
-#define int int64_t
-using ll = long long;
-using pii = pair<int, int>;
-using vi = vector<int>;
-using vvi = vector<vector<int>>;
 
-
-void solution()
+int main()
 {
-	string s;
-	cin >> s;
+	string n;
 	int b;
-	cin >> b;
+	cin >> n >> b;
+	int ans = 0, cur = 1;
 
-	int coef = b, sum = 0;
-	for (int i = s.size() - 1; i >= 0; --i)
+	for (int i = n.size() - 1; i >= 0; i--)
 	{
-		int digit;
-		if (s[i] >= 'A') digit = (int)s[i] - 'A' + 10;
-		else digit = (int)s[i] - '0';
-
-		if (i == s.size() - 1) sum += digit;
+		if (n[i] >= '0' && n[i] <= '9')
+			ans += (n[i] - '0') * cur;
 		else
-		{
-			sum += digit * coef;
-			coef *= b;
-		}
+			ans += (n[i] - 'A' + 10) * cur;
+		
+		cur *= b;
 	}
-	cout << sum;
-}
-
-int32_t main()
-{
-	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	int t = 1;
-	// cin >> t;
-	for (int i = 0; i != t; i++) solution();
-	return 0;
+	cout << ans;
 }
