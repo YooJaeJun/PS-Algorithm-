@@ -1,41 +1,35 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
+#include <algorithm>
 using namespace std;
-#define int int64_t
-using ll = long long;
-using pii = pair<int, int>;
-using vi = vector<int>;
-using vvi = vector<vector<int>>;
-#define yes cout << "YES\n";
-#define no cout << "NO\n";
-const int maxn = 100001;
-const double mod = 1e9 + 7;
 
-string ans;
-
-void toNotate(int n, int b)
-{
-	int mod = n % b;
-	string s;
-	if (mod >= 10) s = 'A' + mod - 10;
-	else s = to_string(mod);
-	ans = s + ans;
-	if (n < b) return;
-	toNotate(n / b, b);
-}
-
-void solution()
+int main()
 {
 	int n, b;
 	cin >> n >> b;
-	toNotate(n, b);
-	cout << ans;
-}
+	string ans;
 
-int32_t main()
-{
-	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	int t = 1;
-	// cin >> t;
-	for (int i = 0; i != t; i++) solution();
-	return 0;
+	auto SumStr = [&](int cur)
+	{
+		if (cur >= 10)
+			ans += 'A' + cur - 10;
+		else
+			ans += to_string(cur);
+	};
+	
+	while (n >= b)
+	{
+		int cur = n % b;
+		SumStr(cur);
+		n /= b;
+	}
+
+	SumStr(n);
+
+	while (ans.back() == '0')
+		ans.pop_back();
+
+	reverse(ans.begin(), ans.end());
+
+	cout << ans;
 }
