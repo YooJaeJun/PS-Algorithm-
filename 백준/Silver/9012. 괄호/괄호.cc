@@ -2,32 +2,33 @@
 #include <stack>
 using namespace std;
 
-int main() {
-	string s;
-	int n;
-	cin >> n;
-	for (int i = 0; i != n; i++) {
+int main()
+{
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	int t;
+	cin >> t;
+
+	while(t--)
+	{
+		stack<char> st;
+		string s;
 		cin >> s;
-		stack<int> st;
-		for (int j = 0; j != s.size(); j++) {
-			if (st.empty()) {
-				st.push(s[j]);
-			}
-			else if (st.top() == '(' && s[j] == ')') {
+
+		for (auto& ch : s)
+		{
+			if (false == st.empty() && 
+				st.top() == '(' && 
+				ch == ')')
 				st.pop();
-			}
-			else {
-				st.push(s[j]);
-			}
+			else
+				st.push(ch);
 		}
-		if (st.empty()) {
-			printf("YES\n");
-		}
-		else {
-			printf("NO\n");
-		}
+
+		if (st.empty())
+			cout << "YES" << '\n';
+		else
+			cout << "NO" << '\n';
 	}
-	
 
 	return 0;
 }
