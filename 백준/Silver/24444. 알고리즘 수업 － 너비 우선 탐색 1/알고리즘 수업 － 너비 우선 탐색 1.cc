@@ -1,66 +1,57 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
 using namespace std;
-#define int int64_t
-using ll = long long;
-using pii = pair<int, int>;
-using vi = vector<int>;
-using vvi = vector<vector<int>>;
-using db = deque<bool>;
-#define yes cout << "YES\n";
-#define no cout << "NO\n";
-#define forn(i, n) for (int i = 0; i < (int)n; i++)
-const int maxn = 1e9 + 7;
-const double mod = 1e9 + 7;
 
-vvi nodes;
-vi visited;
-int order = 1;
-
-void bfs(int start)
+int main()
 {
-	queue<int> q;
-	q.push(start);
-	visited[start] = order++;
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
-	while (false == q.empty())
-	{
-		int cur = q.front();
-		q.pop();
-		for (auto& next : nodes[cur])
-		{
-			if (visited[next]) continue;
-			visited[next] = order++;
-			q.push(next);
-		}
-	}
-}
-
-void solution()
-{
 	int n, m, r;
 	cin >> n >> m >> r;
-	nodes = vvi(n + 1);
-	visited = vi(n + 1);
-	forn(i, m)
+
+	vector<vector<int>> adj(n + 1);
+
+	while (m--)
 	{
 		int n1, n2;
 		cin >> n1 >> n2;
-		nodes[n1].push_back(n2);
-		nodes[n2].push_back(n1);
+		adj[n1].push_back(n2);
+		adj[n2].push_back(n1);
 	}
-	
-	for (int i = 1; i <= n; i++) sort(nodes[i].begin(), nodes[i].end());
 
-	bfs(r);
+	for (auto& elem : adj)
+		sort(elem.begin(), elem.end());
 
-	for (int i = 1; i <= n; i++) cout << visited[i] << '\n';
-}
+	vector<int> visited(n + 1);
+	int cnt = 1;
 
-int32_t main()
-{
-	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	int t = 1;
-	// cin >> t;
-	for (int i = 0; i != t; i++) solution();
+	auto Bfs = [&]()
+	{
+		queue<int> q;
+		q.push(r);
+		visited[r] = cnt++;
+
+		while (false == q.empty())
+		{
+			int cur = q.front();
+			q.pop();
+
+			for (auto& elem : adj[cur])
+			{
+				if (visited[elem])
+					continue;
+				visited[elem] = cnt++;
+				q.push(elem);
+			}
+		}
+	};
+	Bfs();
+
+	for (int i = 1; i <= n; i++)
+		cout << visited[i] << '\n';
+
 	return 0;
 }
