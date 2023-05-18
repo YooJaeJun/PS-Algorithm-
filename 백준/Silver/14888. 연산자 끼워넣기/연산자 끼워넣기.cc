@@ -1,66 +1,65 @@
 #include <iostream>
+#include <array>
 #include <vector>
-#include <algorithm>
+#include <functional>
+
 using namespace std;
 
-int n;
-vector<int> arr, ans;	
+int main()
+{
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
-enum eOperator {
-	eplus, eminus, emultiple, edivision
-};
+	int n;
+	cin >> n;
+	vector<int> v(n);
 
-void bt(int depth, vector<int>& oper, int result) {	// +,-,x,/ 수
-	if (depth == n) {
-		ans.push_back(result);
-		return;
-	}
+	for (int i = 0; i < n; i++)
+		cin >> v[i];
 
-	for (int i = 0; i != 4; i++) {
-		if (oper[i] <= 0) continue;
+	int oper[4] = { 0, };
+	for (int i = 0; i < 4; i++)
+		cin >> oper[i];
 
-		--oper[i];
-		switch (i)
+	int maxn = -1e9, minn = 1e9;
+
+	function<void(int, int)> BackTracking = [&](int res, int index)
+	{
+		if (index == v.size())
 		{
-		case eplus:
-			bt(depth + 1, oper, result + arr[depth]);
-			break;
-		case eminus:
-			bt(depth + 1, oper, result - arr[depth]);
-			break;
-		case emultiple:
-			bt(depth + 1, oper, result * arr[depth]);
-			break;
-		case edivision:
-			bt(depth + 1, oper, result / arr[depth]);
-			break;
+			maxn = max(maxn, res);
+			minn = min(minn, res);
+			return;
 		}
 
-		++oper[i];
-	}
-}
+		for (int i=0; i<4; i++)
+		{
+			if (oper[i] <= 0)
+				continue;
 
-void solution() {
-	cin >> n;
-	arr.resize(n);
+			oper[i]--;
 
-	for (int i = 0; i != n; i++) {
-		cin >> arr[i];
-	}
-	vector<int> oper(4);
-	for (int i = 0; i != 4; i++) {
-		cin >> oper[i];
-	}
-	
-	bt(1, oper, arr[0]);
-	
-	cout << *max_element(ans.begin(), ans.end()) << '\n' << *min_element(ans.begin(), ans.end());
-}
+			switch (i)
+			{
+			case 0:
+				BackTracking(res + v[index], index + 1);
+				break;
+			case 1:
+				BackTracking(res - v[index], index + 1);
+				break;
+			case 2:
+				BackTracking(res * v[index], index + 1);
+				break;
+			case 3:
+				BackTracking(res / v[index], index + 1);
+				break;
+			}
 
-int main() {
-	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	int testCaseNum = 1;
-	// cin >> testCaseNum;
-	for (int i = 0; i != testCaseNum; i++) { solution(); }
+			oper[i]++;
+		}
+	};
+	BackTracking(v[0], 1);
+
+	cout << maxn << '\n' << minn;
+
 	return 0;
 }
