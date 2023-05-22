@@ -1,39 +1,41 @@
 #include <iostream>
 #include <vector>
-#include <cmath>
+#include <functional>
 using namespace std;
 
-void move(int start, int end) {
-	cout << start << ' ' << end << '\n';
-}
+int main()
+{
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
-void hanoi(int n, int start, int end) {
-	if (n == 1) {
-		move(start, end);
-		return;
-	}
-	int via = 6 - start - end;
-	hanoi(n - 1, start, via);
-	move(start, end);
-	hanoi(n - 1, via, end);
-}
-
-void solution() {
 	int n;
 	cin >> n;
-	// 횟수 2^n - 1 
-	// pow는 정확도 낮다고..
+
 	int cnt = 1;
-	for (int i = 0; i != n; i++) {
+	for (int i = 0; i < n; i++)
 		cnt *= 2;
-	}
-	cout << cnt - 1 << '\n';
+	cnt--;
+	cout << cnt << '\n';
 
-	hanoi(n, 1, 3);
-}
+	function<void(int, int, int)> Hanoi = [&](int n, int s, int e)
+	{
+		auto Move = [&](int s, int e)
+		{
+			cout << s << ' ' << e << '\n';
+		};
 
-int main() {
-	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	solution();
+		if (n == 1)
+		{
+			Move(s, e);
+			return;
+		}
+
+		int via = 6 - s - e;
+		Hanoi(n - 1, s, via);
+		Move(s, e);
+		Hanoi(n - 1, via, e);
+	};
+
+	Hanoi(n, 1, 3);
+
 	return 0;
 }
