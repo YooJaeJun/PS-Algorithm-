@@ -8,7 +8,7 @@
 
 ### 분류
 
-자료 구조(data_structures), 큐(queue)
+자료 구조, 큐
 
 ### 문제 설명
 
