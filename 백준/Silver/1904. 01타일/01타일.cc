@@ -1,38 +1,20 @@
-#include <bits/stdc++.h>
-using namespace std;
-#define int int64_t
-using ll = long long;
-using pii = pair<int, int>;
-using vi = vector<int>;
-using vvi = vector<vector<int>>;
-using db = deque<bool>;
-#define yes cout << "YES\n";
-#define no cout << "NO\n";
-#define forn(i, n) for (int i = 0; i < (int)n; i++)
-const int maxn = 1e9 + 7;
-const int mod = 15746;
+#include <iostream>
+#include <vector>
+using namespace  std;
 
-
-void solution()
+int main()
 {
+	const int mod = 15746;
 	int n;
 	cin >> n;
-	vi dp(n + 1);
+	vector<int> dp(n + 1);
+
 	dp[1] = 1;
-	dp[2] = 2;
+	if (n >= 2)
+		dp[2] = 2;
 
 	for (int i = 3; i <= n; i++)
-	{
-		dp[i] = ((dp[i - 2] % mod) + (dp[i - 1] % mod)) % mod;
-	}
-	cout << dp[n];
-}
+		dp[i] = (dp[i - 2] + dp[i - 1]) % mod;
 
-int32_t main()
-{
-	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	int t = 1;
-	// cin >> t;
-	for (int i = 0; i != t; i++) solution();
-	return 0;
+	cout << dp[n];
 }
