@@ -1,20 +1,27 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <vector>
 using namespace std;
 
-int main() {
+int main()
+{
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+
 	int t;
 	cin >> t;
-	for (int i = 0; i != t; i++) {
-		int n;
+
+	while (t--)
+	{
+		int r;
+		cin >> r;
 		string s;
-		cin >> n >> s;
-		for (int j = 0; j != s.size(); j++) {
-			for (int k = 0; k != n; k++) {
-				printf("%c", s[j]);
-			}
-		}
-		puts("");
+		cin >> s;
+
+		for (auto ch : s)
+			for (int i = 0; i < r; i++)
+				cout << ch;
+
+		cout << '\n';
 	}
+
 	return 0;
 }
