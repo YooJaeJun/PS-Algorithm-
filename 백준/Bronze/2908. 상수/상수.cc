@@ -1,22 +1,20 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <vector>
 #include <string>
+#include <algorithm>
 using namespace std;
 
-int main() {
-	string input_s1, input_s2;
-	cin >> input_s1 >> input_s2;
+int main()
+{
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+
 	string s1, s2;
-	for (int i = input_s1.size() - 1; i >= 0; i--) {
-		s1 += input_s1[i];
-		s2 += input_s2[i];
- 	}
-	if (stoi(s1) >= stoi(s2)) {
-		cout << s1;
-	}
-	else {
-		cout << s2;
-	}
+	cin >> s1 >> s2;
+
+	reverse(s1.begin(), s1.end());
+	reverse(s2.begin(), s2.end());
+
+	cout << max(stoi(s1), stoi(s2));
 
 	return 0;
 }
