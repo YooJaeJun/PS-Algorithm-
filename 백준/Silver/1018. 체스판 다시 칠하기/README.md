@@ -1,4 +1,4 @@
-# [Silver V] 체스판 다시 칠하기 - 1018 
+# [Silver IV] 체스판 다시 칠하기 - 1018 
 
 [문제 링크](https://www.acmicpc.net/problem/1018) 
 
@@ -8,7 +8,7 @@
 
 ### 분류
 
-브루트포스 알고리즘(bruteforcing)
+브루트포스 알고리즘
 
 ### 문제 설명
 
