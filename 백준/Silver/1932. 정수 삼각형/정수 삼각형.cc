@@ -2,47 +2,44 @@
 #include <vector>
 using namespace std;
 
-int nodes[501][501] = {0, };
-int sums[501][501] = {0, };
-bool memo[501][501] = {false, };
+int main()
+{
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
-void solution() {
 	int n;
 	cin >> n;
-	for (int i = 1; i <= n; i++) {
-		for (int j = 1; j <= i; j++) {
-			cin >> nodes[i][j];
-		}
+	vector<vector<int>> v(n);
+
+	for (int i=0; i<n; i++)
+	{
+		v[i].resize(i + 1);
+
+		for (int j=0; j<i+1; j++)
+			cin >> v[i][j];
 	}
 
-	sums[1][1] = nodes[1][1];	// 첫 수
-	int ans = sums[1][1];
+	vector<vector<int>> dp(n);
+	dp[0].push_back(v[0][0]);
+	int ans = dp[0][0];
 
-	for (int i = 2; i <= n; i++) {
-		for (int j = 1; j <= n; j++) {
-			if (memo[i][j]) { continue; }	// 메모이제이션
+	for (int i=1; i<n; i++)
+	{
+		dp[i].resize(i + 1);
 
-			memo[i][j] = true;
+		for (int j=0; j<i+1; j++)
+		{
+			if (j == 0)
+				dp[i][j] = dp[i - 1][j] + v[i][j];
+			else if (j == i)
+				dp[i][j] = dp[i - 1][j - 1] + v[i][j];
+			else
+				dp[i][j] = max(dp[i - 1][j - 1], dp[i - 1][j]) + v[i][j];
 
-			if (j == 1) {	// 첫 열
-				sums[i][j] += sums[i - 1][j] + nodes[i][j];
-			}
-			else if (j == i) { // 끝 열
-				sums[i][j] += sums[i - 1][j - 1] + nodes[i][j];
-			}
-			else {	// 중간
-				sums[i][j] += max(sums[i - 1][j - 1], sums[i - 1][j]) + nodes[i][j];
-			}
-
-			ans = max(ans, sums[i][j]);
+			ans = max(ans, dp[i][j]);
 		}
 	}
 
 	cout << ans;
-}
 
-int main() {
-	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	solution();
 	return 0;
 }
