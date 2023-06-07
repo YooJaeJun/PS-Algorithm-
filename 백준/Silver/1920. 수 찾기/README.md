@@ -8,7 +8,7 @@
 
 ### 분류
 
-이분 탐색(binary_search), 자료 구조(data_structures)
+이분 탐색, 자료 구조, 정렬
 
 ### 문제 설명
 
