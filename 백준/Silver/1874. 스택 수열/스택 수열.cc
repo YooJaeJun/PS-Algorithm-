@@ -1,42 +1,47 @@
 #include <iostream>
+#include <vector>
 #include <stack>
-#include <queue>
 using namespace std;
 
-int main() {
-	int t;
-	cin >> t;
-	queue<int> q;
-	for (int i = 1; i <= t; i++) {
-		q.push(i);
-	}
+int main()
+{
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+
+	int n;
+	cin >> n;
+
+	vector<int> inputs(n);
+
+	for (int i = 0; i < n; i++)
+		cin >> inputs[i];
+
 	stack<int> st;
-	string s;
-	while (t--) {
-		int elem;
-		cin >> elem;
-		
-		if (st.empty() || st.top() < elem) {
-			for (int i = q.front(); i <= elem; i++) {
-				st.push(i);
-				s += '+';
-				q.pop();
-			}
-			st.pop();
-			s += '-';
+	int index = 0, cur = 1;
+	string answer;
+
+	while (index < n)
+	{
+		if (st.empty() || st.top() < inputs[index])
+		{
+			st.push(cur);
+			cur++;
+			answer += '+';
 		}
-		else if(false == st.empty() && st.top() == elem) {
+		else if (!st.empty() && st.top() == inputs[index])
+		{
 			st.pop();
-			s += '-';
+			index++;
+			answer += '-';
 		}
-		else {
-			printf("NO");
+		else
+		{
+			cout << "NO";
 			return 0;
 		}
 	}
-	for (auto& elem : s) {
-		printf("%c\n", elem);
-	}
+
+	for (auto& ch : answer)
+		cout << ch << '\n';
 
 	return 0;
 }
