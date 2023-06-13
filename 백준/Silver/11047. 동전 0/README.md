@@ -1,4 +1,4 @@
-# [Silver III] 동전 0 - 11047 
+# [Silver IV] 동전 0 - 11047 
 
 [문제 링크](https://www.acmicpc.net/problem/11047) 
 
@@ -8,7 +8,7 @@
 
 ### 분류
 
-그리디 알고리즘(greedy)
+그리디 알고리즘
 
 ### 문제 설명
 
