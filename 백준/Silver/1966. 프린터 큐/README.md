@@ -8,7 +8,7 @@
 
 ### 분류
 
-자료 구조(data_structures), 구현(implementation), 큐(queue), 시뮬레이션(simulation)
+자료 구조, 구현, 큐, 시뮬레이션
 
 ### 문제 설명
 
