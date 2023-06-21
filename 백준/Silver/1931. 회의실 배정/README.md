@@ -1,4 +1,4 @@
-# [Silver II] 회의실 배정 - 1931 
+# [Silver I] 회의실 배정 - 1931 
 
 [문제 링크](https://www.acmicpc.net/problem/1931) 
 
@@ -8,7 +8,7 @@
 
 ### 분류
 
-그리디 알고리즘(greedy), 정렬(sorting)
+그리디 알고리즘, 정렬
 
 ### 문제 설명
 
