@@ -1,102 +1,86 @@
-#include <bits/stdc++.h>
-#include <unordered_map>
+#include <iostream>
+#include <deque>
+#include <functional>
 using namespace std;
-#define int int64_t
-using ll = long long;
-using pii = pair<int, int>;
-using vi = vector<int>;
-using vvi = vector<vector<int>>;
-using db = deque<bool>;
-#define yes cout << "YES\n";
-#define no cout << "NO\n";
-#define forn(i, n) for (int i = 0; i < (int)n; i++)
-const int maxn = 1e9 + 7;
-const double mod = 1e9 + 7;
 
-
-const int t = 4;
-vector<deque<char>> gear(t);
-const int leftIdx = 6, rightIdx = 2;	// 맞닿은 인덱스
-
-void rotate(int dir, int idx)
+int main()
 {
-	if (dir == -1)
-	{
-		gear[idx].push_back(gear[idx].front());
-		gear[idx].pop_front();
-	}
-	else
-	{
-		gear[idx].push_front(gear[idx].back());
-		gear[idx].pop_back();
-	}
-}
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
-void roatateLeft(int dir, int idx, int i)
-{
-	if (idx - i < 0) return;
+	deque<int> dq[4];
+	string input;
 
-	if (idx - i >= 0)
+	for (int i = 0; i < 4; i++)
 	{
-		if (gear[idx - i + 1][leftIdx] != gear[idx - i][rightIdx])
-		{
-			roatateLeft(-dir, idx, i + 1);
-			rotate(-dir, idx - i);
-		}
-	}
-}
+		cin >> input;
 
-void roatateRight(int dir, int idx, int i)
-{
-	if (idx + i >= t) return;
-
-	if (idx + i < t)
-	{
-		if (gear[idx + i - 1][rightIdx] != gear[idx + i][leftIdx])
-		{
-			roatateRight(-dir, idx, i + 1);
-			rotate(-dir, idx + i);
-		}
-	}
-}
-
-void solution()
-{
-	forn(i, t)
-	{
-		string s;
-		cin >> s;
-		forn(j, s.size())
-		{
-			gear[i].push_back(s[j]);
-		}
+		for (int j = 0; j < 8; j++)
+			dq[i].push_back(input[j] - '0');
 	}
 
 	int k;
 	cin >> k;
-	forn(i, k)
+	int index = 0, direction = 0;
+
+	auto RotateDetail = [&](int dir, int idx)
 	{
-		int idx, dir;
-		cin >> idx >> dir;
-		--idx;
-		roatateLeft(dir, idx, 1);
-		roatateRight(dir, idx, 1);
-		rotate(dir, idx);
+		if (dir == 1)
+		{
+			dq[idx].push_front(dq[idx].back());
+			dq[idx].pop_back();
+		}
+		else
+		{
+			dq[idx].push_back(dq[idx].front());
+			dq[idx].pop_front();
+		}
+	};
+
+	function<void(int, int)> RotateLeft = [&](int dir, int idx)
+	{
+		if (idx > 0 &&
+			dq[idx][6] != dq[idx - 1][2])
+			RotateLeft(dir * -1, idx - 1);
+
+		RotateDetail(dir, idx);
+	};
+
+	function<void(int, int)> RotateRight = [&](int dir, int idx)
+	{
+		if (idx < 3 &&
+			dq[idx][2] != dq[idx + 1][6])
+			RotateRight(dir * -1, idx + 1);
+
+		RotateDetail(dir, idx);
+	};
+
+	while(k--)
+	{
+		cin >> index >> direction;
+		index--;
+
+		// Left
+		if (index > 0 &&
+			dq[index][6] != dq[index - 1][2])
+			RotateLeft(direction * -1, index - 1);
+		// Right
+		if (index < 3 &&
+			dq[index][2] != dq[index + 1][6])
+			RotateRight(direction * -1, index + 1);
+
+		RotateDetail(direction, index);
 	}
 
-	int ans = 0;
-	forn(i, t)
-	{
-		if (gear[i][0] == '1') ans += pow(2, i);
-	}
-	cout << ans;
-}
+	int factor = 1, sum = 0;
 
-int32_t main()
-{
-	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	int t = 1;
-	// cin >> t;
-	for (int i = 0; i != t; i++) solution();
+	for (int i=0; i<4; i++)
+	{
+		if (dq[i][0] == 1)
+			sum += factor;
+		factor *= 2;
+	}
+
+	cout << sum;
+
 	return 0;
 }
