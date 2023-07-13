@@ -3,31 +3,31 @@
 #include <algorithm>
 using namespace std;
 
-void solution() {
+int main()
+{
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+
 	int n;
 	cin >> n;
 	vector<int> v(n);
-	for (int i = 0; i != n; i++) {
+
+	for (int i=0; i<n; i++)
 		cin >> v[i];
-	}
 
 	sort(v.begin(), v.end());
 
-	vector<int> sums(n);
-	for (int i = 0; i != v.size(); i++) {
-		for (int j = 0; j <= i; j++) {
-			sums[i] += v[j];
-		}
-	}
-	int sumsum = 0;
-	for (auto& elem : sums) {
-		sumsum += elem;
-	}
-	cout << sumsum;
-}
+	vector<int> psum(n);
+	psum[0] = v[0];
 
-int main() {
-	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	solution();
+	for (int i=1; i<n; i++)
+		psum[i] += psum[i - 1] + v[i];
+
+	int ans = 0;
+
+	for (int i=0; i<n; i++)
+		ans += psum[i];
+
+	cout << ans;
+
 	return 0;
 }
