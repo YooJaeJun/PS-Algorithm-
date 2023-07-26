@@ -1,108 +1,111 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <deque>
+#include <queue>
 using namespace std;
-#define int int64_t
-using ll = long long;
-using pii = pair<int, int>;
-using vi = vector<int>;
-using vvi = vector<vector<int>>;
-using db = deque<bool>;
-using ddb = deque<deque<bool>>;
-#define yes cout << "YES\n";
-#define no cout << "NO\n";
-#define forn(i, n) for (int i = 0; i < (int)n; i++)
-#define forn1(i, n) for (int i = 1; i <= (int)n; i++)
-const int maxn = 1e9 + 7;
-const double mod = 1e9 + 7;
-
-struct coord
+int main()
 {
-	int x, y;
-};
-int dx[4] = { 0,0,1,-1 };
-int dy[4] = { 1,-1,0,0 };
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
-void solution()
-{
 	int n, l, r;
 	cin >> n >> l >> r;
-	vvi grid(n, vi(n));
-	forn(x, n) forn(y, n) cin >> grid[x][y];
+	vector<vector<int>> grid(n, vector<int>(n));
 
-	ddb visited(n, db(n));
-	bool flag = true;
-	int ans = 0;
-	vector<coord> cartel;
-	int sum = 0;
+	for (int x=0; x<n; x++)
+		for (int y=0; y<n; y++)
+			cin >> grid[x][y];
 
-	while (flag)
+	const int dx[4]{ 0,0,1,-1 };
+	const int dy[4]{ 1,-1,0,0 };
+	deque<deque<bool>> visited(n, deque<bool>(n));
+	vector<pair<int, int>> candidate;
+	int ans = 0, sum = 0;
+	bool loopBreak = false;
+
+
+	auto Bfs = [&](int i, int j)
 	{
-		flag = false;
-		for (auto& elem : visited)
-		{
-			fill(elem.begin(), elem.end(), false);
-		}
+		queue<pair<int, int>> q;
+		q.emplace(i, j);
 
-		forn(x, n)
+		while (false == q.empty())
 		{
-			forn(y, n)
+			const int x = q.front().first;
+			const int y = q.front().second;
+			q.pop();
+
+			for (int k = 0; k < 4; k++)
 			{
-				function<void(int, int)> bfs = [&](int sx, int sy)
+				const int nx = x + dx[k];
+				const int ny = y + dy[k];
+
+				if (nx < 0 || nx >= n || ny < 0 || ny >= n)
+					continue;
+
+				if (visited[nx][ny])
+					continue;
+
+				const int diff = abs(grid[nx][ny] - grid[x][y]);
+
+				if (diff >= l && diff <= r)
 				{
-					queue<coord> q;
-					q.push({ sx, sy });
-					visited[sx][sy] = true;
-					cartel.clear();
-					cartel.push_back({ sx, sy });
-					sum = grid[sx][sy];
-
-					while (false == q.empty())
-					{
-						int x = q.front().x;
-						int y = q.front().y;
-						q.pop();
-						
-						for (int i = 0; i < 4; i++)
-						{
-							int nx = x + dx[i];
-							int ny = y + dy[i];
-							if (nx < 0 || nx >= n || ny < 0 || ny >= n) continue;
-							if (visited[nx][ny]) continue;
-							if (abs(grid[x][y] - grid[nx][ny]) >= l and
-								abs(grid[x][y] - grid[nx][ny]) <= r)
-							{
-								visited[nx][ny] = true;
-								cartel.push_back({ nx, ny });
-								q.push({ nx, ny });
-								sum += grid[nx][ny];
-								flag = true;
-							}
-						}
-					}
-
-					int siz = (int)cartel.size();
-					for (auto& elem : cartel)
-					{
-						grid[elem.x][elem.y] = sum / siz;
-					}
-				};
-
-				if (false == visited[x][y])
-				{
-					bfs(x, y);
+					loopBreak = false;
+					visited[nx][ny] = true;
+					sum += grid[nx][ny];
+					q.emplace(nx, ny);
+					candidate.emplace_back(nx, ny);
 				}
 			}
 		}
-		if (false == flag) break;
-		else ans++;
-	}
-	cout << ans;
-}
+	};
 
-int32_t main()
-{
-	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	int t = 1;
-	// cin >> t;
-	for (int i = 0; i != t; i++) solution();
+
+	while (true)
+	{
+		loopBreak = true;
+		candidate.clear();
+
+		for (auto& elem : visited)
+			fill(elem.begin(), elem.end(), false);
+
+		for (int x = 0; x < n; x++)
+		{
+			for (int y = 0; y < n; y++)
+			{
+				if (visited[x][y])
+					continue;
+
+				sum = grid[x][y];
+				visited[x][y] = true;
+				candidate.clear();
+				candidate.emplace_back(x, y);
+
+				Bfs(x, y);
+
+				const int average = sum / candidate.size();
+
+				for (const auto& elem : candidate)
+					grid[elem.first][elem.second] = average;
+			}
+		}
+
+		if (loopBreak)
+			break;
+
+		ans++;
+
+		//cout << '\n';
+		//for (int x = 0; x < n; x++)
+		//{
+		//	for (int y = 0; y < n; y++)
+		//		cout << grid[x][y] << ' ';
+
+		//	cout << '\n';
+		//}
+		//cout << '\n';
+	}
+
+	cout << ans;
+
 	return 0;
 }
