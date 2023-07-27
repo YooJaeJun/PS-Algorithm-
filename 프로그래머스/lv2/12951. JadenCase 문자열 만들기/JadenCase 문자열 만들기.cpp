@@ -1,22 +1,24 @@
 #include <string>
 #include <vector>
-
 using namespace std;
 
 string solution(string s) {
-    for (int i = 0, idx = 0; i != s.size(); i++) {
-        if (s[i] == ' ') {
-            idx = 0;
-        }
-        else {
-            if (idx == 0 && s[i] >= 'a' && s[i] <= 'z') {
-                s[i] = toupper(s[i]);
-            }
-            else if (idx != 0 && s[i] >= 'A' && s[i] <= 'Z') {
-                s[i] = tolower(s[i]);
-            }
-            idx++;
+    bool first = true;
+    
+    for (auto& ch : s)
+    {
+        if (ch == ' ')
+            first = true;
+        else
+        {
+            if (first && ch >= 'a' && ch <= 'z')
+                ch = toupper(ch);
+            else if (false == first)
+                ch = tolower(ch);
+        
+            first = false;
         }
     }
+    
     return s;
 }
