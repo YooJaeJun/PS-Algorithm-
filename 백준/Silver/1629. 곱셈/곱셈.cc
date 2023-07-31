@@ -1,30 +1,26 @@
 #include <iostream>
-#include <vector>
+#include <functional>
 using namespace std;
 
-typedef long long ll;
+int main()
+{
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
-ll newPow(ll a, ll b, ll c) {
-	if (b == 1) return a % c;
-	int x = newPow(a, b / 2, c);
-	if (b % 2 == 0) {
-		return x % c * x % c;
-	}
-	else {
-		return x % c * x % c * a % c;
-	}
-}
-
-void solution() {
+	using ll = long long;
 	ll a, b, c;
 	cin >> a >> b >> c;
-	cout << newPow(a, b, c);
-}
 
-int main() {
-	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	int testCaseNum = 1;
-	//cin >> testCaseNum;
-	for (int i = 0; i != testCaseNum; i++) { solution(); }
+	function<ll(const ll, const ll)> Pow = [&](const ll a, const ll b)
+	{
+		if (b == 1)
+			return a % c;
+		else if (b & 1)
+			return Pow(a, b - 1) * a % c;
+
+		const ll x = Pow(a, b / 2);
+		return x % c * x % c;
+	};
+	cout << Pow(a, b);
+
 	return 0;
 }
