@@ -1,40 +1,42 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 using namespace std;
-#define int int64_t
-using ll = long long;
-using pii = pair<int, int>;
-using vi = vector<int>;
-using vvi = vector<vector<int>>;
-
 
 void solution() {
 	int n;
 	cin >> n;
-	vi road(n - 1);
+	vector<pair<int, int>> v(n);	// 비용, 거리
 	for (int i = 0; i != n - 1; i++) {
-		cin >> road[i];
+		cin >> v[i].second;
 	}
-	vi price(n);
 	for (int i = 0; i != n; i++) {
-		cin >> price[i];
+		cin >> v[i].first;
 	}
 
-	int standard = price[0];
+	int minIdx = min_element(v.begin(), v.end() - 1) - v.begin();
+	
 	int sum = 0;
-
-	for (int i = 1; i != n; i++) {
-		sum += standard * road[i - 1];
-		if (standard > price[i]) {
-			standard = price[i];
+	for (int i = 0; i != n; i++) {
+		if (i < minIdx) {
+			sum += v[i].first * v[i].second;
+		}
+		else {
+			int remainDist = 0;
+			for (int j = i; j != n; j++) {
+				remainDist += v[j].second;
+			}
+			sum += v[i].first * remainDist;
+			break;
 		}
 	}
 	cout << sum;
 }
 
-int32_t main() {
+int main() {
 	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-	int t = 1;
-	// cin >> t;
-	for (int i = 0; i != t; i++) { solution(); }
+	int testCaseNum = 1;
+	// cin >> testCaseNum;
+	for (int i = 0; i != testCaseNum; i++) { solution(); }
 	return 0;
 }
